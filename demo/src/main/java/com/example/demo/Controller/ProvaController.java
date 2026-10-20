@@ -2,7 +2,9 @@ package com.example.demo.Controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import com.example.demo.Entities.ProvaEntity;
 import com.example.demo.Service.ProvaService;
 import java.util.List;
@@ -30,5 +32,15 @@ public class ProvaController {
     public List<ProvaEntity> listarTodos() {
         return service.listarTodos();
     } 
+
+    @PutMapping("/{codigo}")
+    public ProvaEntity atualizar(@PathVariable int codigo, @RequestBody ProvaEntity prova) {
+        return service.atualizar(codigo, prova);
+    }
+
+    @DeleteMapping("/{codigo}")
+    public void deletar(@PathVariable int codigo) {
+        service.deletar(codigo);
+    }
     
 }
