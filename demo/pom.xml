@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<!-- Versão do modelo de configuração do Maven. -->
 	<modelVersion>4.0.0</modelVersion>
+	<!-- Herda versões e configurações padrão do Spring Boot. -->
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -11,7 +13,9 @@
 	<groupId>com.example</groupId>
 	<artifactId>demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<!-- Empacota como WAR, que pode ser implantado em servidor Servlet externo. -->
 	<packaging>war</packaging>
+	<!-- Metadados usados para identificar o projeto. -->
 	<name>demo</name>
 	<description/>
 	<url/>
@@ -28,40 +32,49 @@
 		<url/>
 	</scm>
 	<properties>
+		<!-- Define a versão da linguagem Java usada na compilação. -->
 		<java.version>21</java.version>
 	</properties>
+	<!-- Bibliotecas necessárias para compilar e executar a aplicação. -->
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<!-- Integração Spring Data JPA para persistência relacional. -->
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<!-- Infraestrutura Spring MVC para disponibilizar endpoints REST. -->
 			<artifactId>spring-boot-starter-webmvc</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
+			<!-- Driver JDBC do SQL Server, necessário durante a execução. -->
 			<artifactId>mssql-jdbc</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
+			<!-- Gera métodos Java (getters/setters etc.) durante a compilação. -->
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<!-- Tomcat será fornecido pelo servidor quando o WAR for implantado externamente. -->
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<!-- Bibliotecas de teste para componentes de persistência. -->
 			<artifactId>spring-boot-starter-data-jpa-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<!-- Bibliotecas de teste para componentes web. -->
 			<artifactId>spring-boot-starter-webmvc-test</artifactId>
 			<scope>test</scope>
 		</dependency>
@@ -71,13 +84,16 @@
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
+				<!-- Tarefas Maven específicas do Spring Boot, como empacotamento. -->
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<!-- Configura o compilador Java e o processamento de anotações. -->
 				<artifactId>maven-compiler-plugin</artifactId>
 				<executions>
 					<execution>
+						<!-- Executa o processador Lombok ao compilar o código principal. -->
 						<id>default-compile</id>
 						<phase>compile</phase>
 						<goals>
@@ -93,6 +109,7 @@
 						</configuration>
 					</execution>
 					<execution>
+						<!-- Executa o processador Lombok também ao compilar os testes. -->
 						<id>default-testCompile</id>
 						<phase>test-compile</phase>
 						<goals>

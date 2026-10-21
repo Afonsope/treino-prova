@@ -13,31 +13,39 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
+// Controller REST: recebe requisições HTTP e devolve objetos convertidos para JSON.
 @RestController
+// Define o prefixo comum de todas as rotas desta classe: /Provas.
 @RequestMapping("/Provas")
 public class ProvaController {
 
+    // O controller delega as regras/operações ao Service, sem acessar o banco diretamente.
     private final ProvaService service;
 
+    // Injeção por construtor: o Spring fornece automaticamente o ProvaService.
     public ProvaController(ProvaService service) {
         this.service = service;
     }
 
+    // POST /Provas: recebe uma prova no corpo JSON e solicita seu cadastro.
     @PostMapping
     public ProvaEntity salvar(@RequestBody ProvaEntity prova) {
         return service.salvar(prova);
     }
 
+    // GET /Provas: consulta e retorna todas as provas cadastradas.
     @GetMapping
     public List<ProvaEntity> listarTodos() {
         return service.listarTodos();
     } 
 
+    // PUT /Provas/{codigo}: lê o código da URL e os novos dados do corpo JSON.
     @PutMapping("/{codigo}")
     public ProvaEntity atualizar(@PathVariable int codigo, @RequestBody ProvaEntity prova) {
         return service.atualizar(codigo, prova);
     }
 
+    // DELETE /Provas/{codigo}: solicita a exclusão da prova identificada na URL.
     @DeleteMapping("/{codigo}")
     public void deletar(@PathVariable int codigo) {
         service.deletar(codigo);
