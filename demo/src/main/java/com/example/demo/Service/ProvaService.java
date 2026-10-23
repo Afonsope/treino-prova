@@ -1,5 +1,6 @@
 package com.example.demo.Service;
 
+import java.util.Map;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,11 @@ public class ProvaService {
         return repository.findAll();
     }
 
+    // Busca uma prova pelo código; se não houver resultado, lança uma exceção em vez de retornar null.
+    public ProvaEntity buscarPorId(int codigo) {
+        return repository.findById(codigo).orElseThrow(() -> new RuntimeException("Prova não encontrado"));
+    }
+
     // Localiza a prova pelo código; se não existir, interrompe a operação com uma exceção.
     public ProvaEntity atualizar(int codigo, ProvaEntity prova) {
         ProvaEntity provaExistente = repository.findById(codigo).orElseThrow(() -> new RuntimeException("Prova não encontrada"));
@@ -40,6 +46,29 @@ public class ProvaService {
 
         // Salva as alterações e devolve a versão atualizada.
         return repository.save(provaExistente);
+    }
+
+    // Atualiza somente os campos enviados na requisição, preservando os demais valores da prova.
+    public ProvaEntity atualizarParcial(int codigo, Map<String, Object> dados) {
+        // Localiza a prova que será alterada; se ela não existir, interrompe a operação.
+        ProvaEntity prova = repository.findById(codigo).orElseThrow(() -> new RuntimeException("Prova não encontrada"));
+
+        // Altera cada campo apenas quando ele foi incluído no corpo da requisição.
+        if(dados.containsKey("nome")) {
+            prova.setNome((String) dados.get("nome"));
+        }
+
+        if(dados.containsKey("nota")) {
+            // Converte o valor numérico recebido para o tipo usado pela entidade.
+            prova.setNota(((Number) dados.get("nota")).floatValue());
+        }
+
+        if(dados.containsKey("status")) {
+            prova.setStatus((String) dados.get("status"));
+        }
+
+        // Persiste e retorna a prova com os campos atualizados.
+        return repository.save(prova);
     }
 
     // Confirma que a prova existe antes de excluí-la.
